@@ -19,10 +19,10 @@ specs: build
 run:
 	${CABAL} run
 
+docs:
+	cabal haddock
+	open dist/doc/html/text-regex-replace/index.html
 
-# docs:
-# generate api documentation
-#
 # package:
 # build a release tarball or executable
 #
