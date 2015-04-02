@@ -23,9 +23,14 @@ docs:
 	cabal haddock
 	open dist/doc/html/text-regex-replace/index.html
 
-# package:
-# build a release tarball or executable
-#
+package: test
+	${CABAL} check
+	${CABAL} sdist
+
+upload: package
+	${CABAL} upload --check `ls dist/*.tar.gz | sort | tail -1`
+	${CABAL} upload `ls dist/*.tar.gz | sort | tail -1`
+
 # dev:
 # start dev server or process. `vagrant up`, `yesod devel`, etc.
 #

@@ -24,7 +24,7 @@ library
   exposed-modules:     Data.Text.ICU.Replace
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base       >= 4.7  && <4.8
+  build-depends:       base       >= 4.7  && <5
                      , attoparsec >= 0.12 && <0.13
                      , text       >= 1.2  && <1.3
                      , text-icu   >= 0.7  && <0.8
@@ -36,16 +36,13 @@ test-suite text-regex-replace-specs
   ghc-options:         -threaded -rtsopts
   hs-source-dirs:      specs
   main-is:             Specs.hs
-  build-depends:         base       == 4.7.*
+  build-depends:         base
                        , text-regex-replace
                        , QuickCheck
                        , smallcheck
                        , hspec
                        , text       >= 1.2  && <1.3
                        , text-icu   >= 0.7  && <0.8
-                       -- , tasty
-                       -- , tasty-quickcheck
-                       -- , tasty-smallcheck
   default-language:    Haskell2010
 
 
