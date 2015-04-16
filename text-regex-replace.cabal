@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                text-regex-replace
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Easy replacement when using text-icu regexes.
 description:
   This provides a convenient API for doing replacements off of a regular
@@ -46,7 +46,11 @@ test-suite text-regex-replace-specs
   default-language:    Haskell2010
 
 
+source-repository head
+  type:                git
+  location:            git://github.com/erochest/text-regex-replace.git
+
 source-repository this
   type:                git
-  tag:                 master
+  tag:                 0.1.0.1
   location:            git://github.com/erochest/text-regex-replace.git
