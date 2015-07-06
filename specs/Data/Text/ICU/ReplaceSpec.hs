@@ -15,12 +15,20 @@ import           Test.Hspec
 
 spec :: Spec
 spec = do
-    describe "replace" $
+    describe "replace" $ do
         it "should replace the first match." $
-            replace "a" "b" "aaa" `shouldBe` "baa"
-    describe "replaceAll" $
+            replace "a" "b" " aaa" `shouldBe` " baa"
+        it "should include the prefix before the first match." $
+            replace "\\d{2}" "R1" "abc: 10 12" `shouldBe` "abc: R1 12"
+    describe "replaceAll" $ do
         it "should replace all matches." $
-            replaceAll "a" "b" "aaa" `shouldBe` "bbb"
+            replaceAll "a" "b" " aaa" `shouldBe` " bbb"
+        it "should replace all matches with stuff in between." $
+            replaceAll "a" "b" " a a a " `shouldBe` " b b b "
+        it "should include the prefix before the first match." $
+            replaceAll "\\d{2}" "R1" "abc: 10 12" `shouldBe` "abc: R1 R1"
+        it "should include the prefix before the last match." $
+            replaceAll "\\d{2}" "R1" "abc: 10 12 14" `shouldBe` "abc: R1 R1 R1"
 
     describe "rgroup" $
         it "should create a Replace that replaces an RE group." $

@@ -1,5 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE TupleSections              #-}
 
 {-|
 
@@ -46,6 +47,8 @@ import           Data.Text.ICU
 import qualified Data.Text.ICU          as ICU
 import qualified Data.Text.Lazy         as TL
 import qualified Data.Text.Lazy.Builder as TB
+import           Data.Tuple
+import           Prelude                hiding (span)
 
 
 -- | A 'Replace' instance is a function from a regular expression match to
@@ -60,6 +63,8 @@ newtype Replace = Replace { unReplace :: Match -> TB.Builder } deriving
 instance IsString Replace where
     fromString = parseReplace . T.pack
 
+type MatchState = (Match, Int)
+
 -- | Execute a regular expression on a 'Data.Text.Text' and replace the
 -- first match.
 replace :: Regex        -- ^ The regular expression to match.
@@ -72,7 +77,10 @@ replace re r t = maybe t (replace' r) $ ICU.find re t
 replace' :: Replace     -- ^ The specification to replace it with.
          -> Match       -- ^ The match to replace.
          -> T.Text      -- ^ The text with the match replaced.
-replace' r m = finish (Last (Just m)) $ unReplace r m
+replace' r m =
+    finish (Last (Just (m, 0))) . (p <>) $ unReplace r m
+    where
+        p = foldMap TB.fromText $ prefix 0 m
 
 -- | Execute a regular expression on a 'Data.Text.Text' and replace all
 -- matches.
@@ -88,17 +96,34 @@ replaceAll re r t = case ICU.findAll re t of
 replaceAll' :: Replace  -- ^ The specification to replace it with.
             -> [Match]  -- ^ The matches to replace.
             -> T.Text   -- ^ The text with all matches replaced.
-replaceAll' r ms = uncurry finish $ foldMap (Last . Just &&& build r) ms
+replaceAll' r =
+    uncurry finish . foldl' step (Last Nothing, mempty)
     where
-        build :: Replace -> Match -> TB.Builder
-        build repl m = TB.fromText (ICU.span m) <> unReplace repl m
+        step :: (Last MatchState, TB.Builder)
+             -> Match
+             -> (Last MatchState, TB.Builder)
+        step lstep@(Last prev, buffer) m =
+            let s      = span m
+                g      = fold $ group 0 m
+                offset = (+ T.length s) . (+ T.length g) $ maybe 0 snd prev
+            in  ( Last $ Just (m, offset)
+                , buffer <> TB.fromText s <> unReplace r m
+                )
 
--- This handles the last match by including not only the match's prefix and
--- the replacement text, but also the suffix trailing the match.
-finish :: Last Match -> TB.Builder -> T.Text
-finish m b =
-      TL.toStrict . TB.toLazyText . mappend b . TB.fromText . fold
-    $ suffix 0 =<< getLast m
+-- | This handles the last match by including not only the match's prefix
+-- and the replacement text, but also the suffix trailing the match.
+finish :: Last MatchState       -- ^ The state of the match to get the prefix
+                                -- and suffix from.
+       -> TB.Builder            -- ^ The current replacement's output.
+       -> T.Text
+finish m b =   TL.toStrict
+           .   TB.toLazyText
+           .   mappend b
+           .   TB.fromText
+           .   fold
+           $   suffix 0
+           .   fst
+           =<< getLast m
 
 -- | Create a 'Replace' that inserts a regular expression group.
 rgroup :: Int       -- ^ The number of the group in a regular expression.
