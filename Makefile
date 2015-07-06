@@ -1,35 +1,23 @@
 
 SRC=$(shell find src -name '*.hs')
 
-CABAL=cabal
-FLAGS=--enable-tests
-
 all: init test docs package
 
-init:
-	${CABAL} sandbox init
-	make deps
+init: stack.yaml
 
-test: build
-	${CABAL} test --test-option=--color
-
-specs: build
-	./dist/build/text-regex-replace-specs/text-regex-replace-specs
-
-run:
-	${CABAL} run
+test:
+	stack test
 
 docs:
-	cabal haddock
-	open dist/doc/html/text-regex-replace/index.html
+	stack haddock
 
-package: test
-	${CABAL} check
-	${CABAL} sdist
+package: test configure
+	cabal check
+	cabal sdist
 
 upload: package
-	${CABAL} upload --check `ls dist/*.tar.gz | sort | tail -1`
-	${CABAL} upload `ls dist/*.tar.gz | sort | tail -1`
+	cabal upload --check `ls dist/*.tar.gz | sort | tail -1`
+	cabal upload `ls dist/*.tar.gz | sort | tail -1`
 
 # dev:
 # start dev server or process. `vagrant up`, `yesod devel`, etc.
@@ -40,30 +28,36 @@ upload: package
 # deploy:
 # prep and push
 
-tags: ${SRC}
-	hasktags --ctags *.hs src
+tags: configure ${SRC}
+	codex update
 
 hlint:
-	hlint *.hs src specs
+	hlint src specs
 
 clean:
-	${CABAL} clean
+	stack clean
+	codex cache clean
+	-rm -rf dist
 
 distclean: clean
-	${CABAL} sandbox delete
 
-configure: clean
-	${CABAL} configure ${FLAGS}
-
-deps: clean
-	${CABAL} install --only-dependencies --allow-newer ${FLAGS}
-	make configure
+configure:
+	cabal configure --package-db=clear --package-db=global --package-db=`stack path --snapshot-pkg-db` --package-db=`stack path --local-pkg-db`
 
 build:
-	${CABAL} build
+	stack build
+
+ghcid:
+	ghcid --command="stack ghci"
+
+watch:
+	stack test --file-watch
 
 restart: distclean init build
 
 rebuild: clean configure build
 
-.PHONY: all init test run clean distclean configure deps build rebuild hlint
+stack.yaml:
+	stack init --prefer-nightly
+
+.PHONY: all init test clean distclean configure build rebuild hlint ghcid watch
