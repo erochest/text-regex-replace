@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                text-regex-replace
-version:             0.1.0.1
+version:             0.1.1.0
 synopsis:            Easy replacement when using text-icu regexes.
 description:
   This provides a convenient API for doing replacements off of a regular
