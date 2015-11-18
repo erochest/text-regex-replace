@@ -37,7 +37,6 @@ module Data.Text.ICU.Replace
 
 
 import           Control.Applicative
-import           Control.Arrow
 import           Data.Attoparsec.Text
 import           Data.Foldable
 import           Data.Monoid
@@ -102,7 +101,7 @@ replaceAll' r =
         step :: (Last MatchState, TB.Builder)
              -> Match
              -> (Last MatchState, TB.Builder)
-        step lstep@(Last prev, buffer) m =
+        step (Last prev, buffer) m =
             let s      = span m
                 g      = fold $ group 0 m
                 offset = (+ T.length s) . (+ T.length g) $ maybe 0 snd prev

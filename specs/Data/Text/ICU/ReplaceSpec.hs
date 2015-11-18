@@ -4,11 +4,7 @@
 module Data.Text.ICU.ReplaceSpec where
 
 
-import qualified Data.Text              as T
-import           Data.Text.ICU
-import qualified Data.Text.ICU          as ICU
 import           Data.Text.ICU.Replace
-import           Data.Text.Lazy.Builder
 
 import           Test.Hspec
 
