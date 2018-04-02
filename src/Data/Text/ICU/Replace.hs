@@ -1,6 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings          #-}
 {-# LANGUAGE TupleSections              #-}
+{-# LANGUAGE CPP              #-}
 
 {-|
 
@@ -39,6 +40,9 @@ module Data.Text.ICU.Replace
 import           Control.Applicative
 import           Data.Attoparsec.Text
 import           Data.Foldable
+#if __GLASGOW_HASKELL__ < 804
+import           Data.Semigroup (Semigroup)
+#endif
 import           Data.Monoid
 import           Data.String
 import qualified Data.Text              as T
@@ -50,6 +54,7 @@ import           Data.Tuple
 import           Prelude                hiding (span)
 
 
+
 -- | A 'Replace' instance is a function from a regular expression match to
 -- a 'Data.Text.Lazy.Builder.Builder'. This naturally forms a 'Monoid', so
 -- they're easy to combine.
@@ -57,7 +62,7 @@ import           Prelude                hiding (span)
 -- 'Replace' also implements 'IsString', so raw strings can be used to
 -- construct them.
 newtype Replace = Replace { unReplace :: Match -> TB.Builder } deriving
-                  (Monoid)
+                  (Semigroup, Monoid)
 
 instance IsString Replace where
     fromString = parseReplace . T.pack
