@@ -62,7 +62,11 @@ import           Prelude                hiding (span)
 -- 'Replace' also implements 'IsString', so raw strings can be used to
 -- construct them.
 newtype Replace = Replace { unReplace :: Match -> TB.Builder } deriving
-                  (Semigroup, Monoid)
+                  ( Monoid
+#if __GLASGOW_HASKELL__ < 804
+                  , Semigroup
+#endif
+                  )
 
 instance IsString Replace where
     fromString = parseReplace . T.pack
