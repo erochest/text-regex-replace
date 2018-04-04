@@ -15,8 +15,7 @@ package: test
 	stack sdist
 
 upload: package
-	stack upload --pvp-bounds lower \
-		`ls dist/*.tar.gz | sort | tail -1`
+	stack upload --pvp-bounds lower .
 
 # dev:
 # start dev server or process. `vagrant up`, `yesod devel`, etc.
