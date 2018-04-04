@@ -11,13 +11,12 @@ test:
 docs:
 	stack haddock
 
-package: test configure
-	cabal check
-	cabal sdist
+package: test
+	stack sdist
 
 upload: package
-	cabal upload --check `ls dist/*.tar.gz | sort | tail -1`
-	cabal upload `ls dist/*.tar.gz | sort | tail -1`
+	stack upload --pvp-bounds lower \
+		`ls dist/*.tar.gz | sort | tail -1`
 
 # dev:
 # start dev server or process. `vagrant up`, `yesod devel`, etc.
