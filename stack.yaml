@@ -1,4 +1,1 @@
-#resolver: nightly-2018-04-01
-resolver: lts-11.3
-packages:
-- .
+stack-8.2.2.yaml
