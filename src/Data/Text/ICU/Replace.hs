@@ -40,7 +40,7 @@ module Data.Text.ICU.Replace
 import           Control.Applicative
 import           Data.Attoparsec.Text
 import           Data.Foldable
-#if __GLASGOW_HASKELL__ < 804
+#if __GLASGOW_HASKELL__ >= 804
 import           Data.Semigroup (Semigroup)
 #endif
 import           Data.Monoid
@@ -63,7 +63,7 @@ import           Prelude                hiding (span)
 -- construct them.
 newtype Replace = Replace { unReplace :: Match -> TB.Builder } deriving
                   ( Monoid
-#if __GLASGOW_HASKELL__ < 804
+#if __GLASGOW_HASKELL__ >= 804
                   , Semigroup
 #endif
                   )
