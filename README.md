@@ -43,4 +43,5 @@ Dollar signs can be included in the output by doubling them (`$$`).
 Thank you!
 
 * [Kostiantyn Rybnikov](https://github.com/k-bx)
+* [Maciej Bielecki](https://github.com/zyla)
 
