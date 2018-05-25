@@ -25,6 +25,13 @@ addons:
     packages:
       - libgmp-dev
 
+matrix:
+  include:
+    - env: GHCVER=8.4.2  STACK_YAML=stack-8.4.2.yaml  CACHE_NAME=ghc-8.4.2
+    - env: GHCVER=8.2.2  STACK_YAML=stack-8.2.2.yaml  CACHE_NAME=ghc-8.2.2
+    - env: GHCVER=8.0.2  STACK_YAML=stack-8.0.2.yaml  CACHE_NAME=ghc-8.0.2
+    - env: GHCVER=7.10.3 STACK_YAML=stack-7.10.3.yaml CACHE_NAME=ghc-7.10.3
+
 before_install:
 # Download and unpack the stack executable
 - mkdir -p ~/.local/bin
