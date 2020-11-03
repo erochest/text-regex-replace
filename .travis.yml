@@ -14,6 +14,8 @@ sudo: false
 # Do not choose a language; we provide our own build tools.
 language: generic
 
+dist: bionic
+
 # Caching so the next build will be fast too.
 cache:
   directories:
@@ -27,6 +29,8 @@ addons:
 
 matrix:
   include:
+    - env: GHCVER=8.8.4  STACK_YAML=stack-8.8.4.yaml  CACHE_NAME=ghc-8.8.4
+    - env: GHCVER=8.6.5  STACK_YAML=stack-8.6.5.yaml  CACHE_NAME=ghc-8.6.5
     - env: GHCVER=8.4.2  STACK_YAML=stack-8.4.2.yaml  CACHE_NAME=ghc-8.4.2
     - env: GHCVER=8.2.2  STACK_YAML=stack-8.2.2.yaml  CACHE_NAME=ghc-8.2.2
     - env: GHCVER=8.0.2  STACK_YAML=stack-8.0.2.yaml  CACHE_NAME=ghc-8.0.2
