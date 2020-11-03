@@ -1,3 +1,4 @@
+dist-newstyle
 dist
 cabal-dev
 *.o
@@ -6,3 +7,4 @@ cabal-dev
 *.chs.h
 .virthualenv
 .stack-work
+stack.yaml.lock
