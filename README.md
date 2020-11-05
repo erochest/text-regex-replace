@@ -44,4 +44,5 @@ Thank you!
 
 * [Kostiantyn Rybnikov](https://github.com/k-bx)
 * [Maciej Bielecki](https://github.com/zyla)
+* [Peter Becich](https://github.com/peterbecich)
 
