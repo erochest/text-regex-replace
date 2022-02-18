@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 
@@ -33,8 +33,8 @@ library
   build-depends:
       attoparsec >=0.12 && <0.15
     , base >=4.7 && <5
-    , text >=1.2 && <1.3
-    , text-icu >=0.7 && <0.8
+    , text ==1.2.*
+    , text-icu >=0.7 && <0.9
   default-language: Haskell2010
 
 test-suite text-regex-replace-specs
@@ -51,7 +51,7 @@ test-suite text-regex-replace-specs
     , base
     , hspec
     , smallcheck
-    , text >=1.2 && <1.3
-    , text-icu >=0.7 && <0.8
+    , text ==1.2.*
+    , text-icu >=0.7 && <0.9
     , text-regex-replace
   default-language: Haskell2010
