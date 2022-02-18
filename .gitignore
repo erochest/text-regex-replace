@@ -7,4 +7,4 @@ cabal-dev
 *.chs.h
 .virthualenv
 .stack-work
-stack.yaml.lock
+stack*.yaml.lock
