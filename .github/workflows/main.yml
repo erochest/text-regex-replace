@@ -45,16 +45,16 @@ jobs:
           key: ghc-${{ hashFiles('text-regex-replace/stack.yaml.lock') }}
 
       - name: Build text-regex-replace
-        run: cd work/text-regex-replace/text-regex-replace && stack build
+        run: cd ~/work/text-regex-replace/text-regex-replace && stack build
         
       - name: Test text-regex-replace
-        run: cd work/text-regex-replace/text-regex-replace && stack test
+        run: cd ~/work/text-regex-replace/text-regex-replace && stack test
 
       - name: Package text-regex-replace
         shell: bash
         run: |
           mkdir package
-          cd work/text-regex-replace/text-regex-replace
+          cd ~/work/text-regex-replace/text-regex-replace
           dir=$(stack path --dist-dir)/build/text-regex-replace
           [[ -e "$dir/text-regex-replace" ]] && cp "$dir/text-regex-replace" ../package/text-regex-replace
           cd ..
