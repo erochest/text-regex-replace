@@ -45,7 +45,7 @@ jobs:
           key: ghc-${{ hashFiles('text-regex-replace/stack.yaml.lock') }}
 
       - name: Build text-regex-replace
-        run: cd ~/work/text-regex-replace/text-regex-replace && stack build
+        run: cd ~/work/text-regex-replace/text-regex-replace && pwd && ls -a && stack build
         
       - name: Test text-regex-replace
         run: cd ~/work/text-regex-replace/text-regex-replace && stack test
