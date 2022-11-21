@@ -12,6 +12,7 @@ docs:
 	stack haddock
 
 package: test
+	hpack
 	stack sdist
 
 upload: package
