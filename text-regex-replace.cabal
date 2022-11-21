@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           text-regex-replace
-version:        0.1.1.4
+version:        0.1.1.5
 synopsis:       Easy replacement when using text-icu regexes.
 description:    This provides a convenient API for doing replacements off of a regular
                 expression, similar to what regex libraries in other languages provide.
