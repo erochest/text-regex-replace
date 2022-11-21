@@ -17,15 +17,6 @@ package: test
 upload: package
 	stack upload --pvp-bounds lower .
 
-# dev:
-# start dev server or process. `vagrant up`, `yesod devel`, etc.
-#
-# install:
-# generate executable and put it into `/usr/local`
-#
-# deploy:
-# prep and push
-
 tags: configure ${SRC}
 	codex update
 
